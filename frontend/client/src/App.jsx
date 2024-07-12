@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import { Route, Routes } from 'react-router-dom'
 import './App.css'
 import { Nav } from './components/Nav'
@@ -10,7 +9,6 @@ import { Product } from './pages/Product';
 import { Cart } from './pages/Cart'
 
 function App() {
-  //const [count, setCount] = useState(0)
 
   return (
     <>
@@ -22,6 +20,7 @@ function App() {
           <Route path='/signup' element={<SignUp />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/cart' element={<Cart />} />
+          <Route path='/checkout' element={<Checkout />} />
           <Route path='/products/:id' element={<Product />} />
         </Routes>
       </main>

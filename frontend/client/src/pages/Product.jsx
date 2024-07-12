@@ -30,7 +30,7 @@ export const Product = () => {
       <p>{product?.plushieDetails?.description}</p>
       <p>${product?.plushieDetails?.price}</p>
       <p>{product?.plushieDetails?.category}</p>
-      <AddToCart />
+      <AddToCart product-id={product._id } />
     </>
   )
 }
