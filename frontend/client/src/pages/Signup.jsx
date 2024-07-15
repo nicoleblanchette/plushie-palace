@@ -1,8 +1,8 @@
 import { Link } from "react-router-dom"
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import Context from "../context/Context";
 import { useNavigate } from "react-router-dom";
-import { logUserIn } from "../adapters/auth-adapter";
+import { createUser } from "../adapters/user-adapter";
 
 export const SignUp = () => { 
   const navigate = useNavigate()
@@ -21,9 +21,9 @@ export const SignUp = () => {
 		}))
   }
   
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
-    const [user, error] = logUserIn(formData)
+    const [user, error] = await createUser(formData)
     if (error) return setErrorText(error.message)
     setCurrentUser(user)
     navigate(-1)
@@ -44,7 +44,7 @@ export const SignUp = () => {
 						<path d='M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z' />
 					</svg>
 
-          <input type='text' className='grow' placeholder='Username' name={username} value={formData.username} onChange={handleChange} required/>
+          <input type='text' className='grow' placeholder='Username' name="username" value={formData.username} onChange={handleChange} required/>
 				</label>
 				<label className='input input-bordered flex items-center gap-2'>
 					<svg
@@ -60,11 +60,12 @@ export const SignUp = () => {
 						/>
 					</svg>
 					<input type='password' className='grow' placeholder='Password' name="password" value={formData.password} onChange={handleChange} required/>
-				</label>
+        </label>
+        <button className="btn">Sign Up</button>
 			</form>
       {errorText && <p>{ errorText}</p>}
 			<p>Already a member?</p>
-			<Link to={"/login"}>Log in!</Link>
+			<Link to={"/login"}>Login!</Link>
 		</>
 	)
 }

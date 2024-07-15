@@ -10,7 +10,7 @@ export const deleteOptions = {
 
 export const getPostOptions = (body) => ({
   method: 'POST',
-  credentials: 'include',
+// credentials: 'include',
   headers: { 'Content-Type': 'application/json' },
   body: JSON.stringify(body),
 });

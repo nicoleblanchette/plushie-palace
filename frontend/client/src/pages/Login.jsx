@@ -1,6 +1,7 @@
 import { Link, useNavigate } from "react-router-dom"
-import { useContext } from "react"
+import { useContext, useState } from "react"
 import { logUserIn } from "../adapters/auth-adapter";
+import Context from "../context/Context";
 
 export const Login = () => {
   const navigate = useNavigate()
@@ -60,7 +61,8 @@ export const Login = () => {
 						/>
 					</svg>
 					<input type='password' className='grow' placeholder='Password' name="password" value={formData.password} onChange={handleChange}/>
-				</label>
+        </label>
+        <button className="btn">Login</button>
 			</form>
 
 			<p>Need an account?</p>
