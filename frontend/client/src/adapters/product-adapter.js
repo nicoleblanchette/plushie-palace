@@ -22,4 +22,6 @@ export const getProductsBySearch = async (search) => (
 )
 
 //get by AI/ML algorithm
-export const getRecommendedProducts = async () => {}
+export const getRecommendedProducts = async (id) => (
+  fetchHandler(`${baseUrl}/products/recommended/${id}`)
+)

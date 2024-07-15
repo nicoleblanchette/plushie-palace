@@ -7,9 +7,11 @@ dotenv.config()
 const url = process.env.MONGO_DB_URL
 const dbName = process.env.MONGO_DB
 const collectionName = process.env.MONGO_DB_COLLECTION
+const userCollection = process.env.MONGO_DB_USER_COLLECTION
 
 const app = express()
 app.use(cors())
+app.use(express.json())
 const PORT = 3000
 
 app.get("/api/products", async (req, res) => {
@@ -81,23 +83,34 @@ app.get("/api/search/:search", async (req, res) => {
 // /api/users/ POST make new account
 app.post("/api/users", async (req, res) => {
   try {
-    console.log('its this route')
     const newUser = req.body
-    console.log(req.body)
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
-		const collection = db.collection("users")
+		const collection = db.collection(userCollection)
 		// TO DO: verify username is unique/not previously taken
 
-	//	const result = await collection.insertOne(newUser)
-    // res.status(201).send(`{"_id":"${result.insertedId}"}`)
-    //  res.status(201).send(result)
-   // res.send('hello?')
+	const result = await collection.insertOne(newUser)
+   res.status(201).send(`{"_id":"${result.insertedId}"}`)
 	} catch (err) {
 		console.error("Error:", err)
 		res.status(500).send(err.message)
 	}
 })
+
+// app.get("/api/users/:username", async (req, res) => {
+//   try {
+//     const username = req.params
+//     const client = await MongoClient.connect(url)
+// 		const db = client.db(dbName)
+//     const collection = db.collection(userCollection)
+    
+//     const result = await collection.find({ "username": username })
+//     res.json(result)
+//   } catch (err) {
+//     console.error("Error:", err)
+//     res.status(500).send(err.message)
+//   }
+// })
 
 // /api/cart GET retrieve users cart
 app.get("/api/cart", async (req, res) => {
@@ -146,24 +159,18 @@ app.post("api/orders", async (req, res) => {
 })
 
 // /api/login POST login
-app.post("api/login", async (req, res) => {
-	try {
+app.post("/api/login", async (req, res) => {
+  try {
+    console.log(req.body)
 		const { username, password } = req.body
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
 		const collection = db.collection("users")
-		const result = await collection
-			.findOne({ username: username })
-			.then(user => {
-				if (user) {
-					if (user.password === password) {
-						res.json(result)
-					} else {
-						res.json("The password is incorrect")
-					}
-				}
-			})
-	} catch {
+    const result = await collection.findOne({ "username": username })
+    if (result && result.password === password) {
+      res.json(result)
+    }
+	} catch(err) {
 		console.error("Error:", err)
 		res.status(500).send("Ooops, no username found")
 	}

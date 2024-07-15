@@ -16,20 +16,20 @@ export const CategoryBar = ({ setPlushies, setErrorText }) => {
 	}
 
 	return (
-		<div className='flex-row'>
-			<button className='btn' onClick={() => handleCategorySwitch("all")}>
+		<div className='flex flex-row gap-4'>
+			<button className='btn btn-primary' onClick={() => handleCategorySwitch("all")}>
 				All
 			</button>
-			<button className='btn' onClick={() => handleCategorySwitch("earth")}>
+			<button className='btn btn-primary' onClick={() => handleCategorySwitch("earth")}>
 				Earth
 			</button>
-			<button className='btn' onClick={() => handleCategorySwitch("air")}>
+			<button className='btn btn-primary' onClick={() => handleCategorySwitch("air")}>
 				Air
 			</button>
-			<button className='btn' onClick={() => handleCategorySwitch("sea")}>
+			<button className='btn btn-primary' onClick={() => handleCategorySwitch("sea")}>
 				Sea
 			</button>
-			<button className='btn' onClick={() => handleCategorySwitch("XL")}>
+			<button className='btn btn-primary' onClick={() => handleCategorySwitch("XL")}>
 				XL
 			</button>
 		</div>
