@@ -1,6 +1,6 @@
 import { fetchHandler} from "../utils/utils";
 
-const baseUrl = '/api/products'
+const baseUrl = 'http://localhost:3000/api/products'
 //get all products
 export const getAllProducts = async () => (
   fetchHandler(baseUrl)

@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react"
 import { ProductCard } from "./ProductCard"
+import { getAllProducts } from "../adapters/product-adapter";
 
 export const ProductList = () => {
   const mock = [
@@ -16,16 +17,25 @@ export const ProductList = () => {
   ]
 
   const [plushies, setPlushies] = useState([])
+  const [errorText, setErrorText] = useState('')
 
   useEffect(() => {
     //insert fetch logic
-    setPlushies(mock)
+    // setPlushies(mock)
+    const doFetch = async () => {
+      const [products, error] = await getAllProducts();
+      if (products) return setPlushies(products)
+      if (error) return setErrorText(error.message)
+    }
+    doFetch();
+
   }, [])
 
 
   return (
     <>
-      {plushies.map((plushie) => <ProductCard key={plushie?._id} product={plushie} />)}
+      {errorText && <p>{ errorText}</p>}
+      {plushies?.map((plushie) => <ProductCard key={plushie?._id} product={plushie} />)}
     </>
   )
 }

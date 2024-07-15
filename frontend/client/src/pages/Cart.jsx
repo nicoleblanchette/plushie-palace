@@ -7,6 +7,7 @@ export const Cart = () => {
   const navigate = useNavigate()
   const { cart } = useContext(Context)
   const [total, setTotal] = useState(0)
+  
 
   return (
     <>
@@ -14,7 +15,7 @@ export const Cart = () => {
       <ul>
 
         {cart?.map((item) => {
-        setTotal((prev => prev + 1))
+        setTotal((prev => prev + item.price))
         return <CartItem item={item} />;
         } )}
       </ul>
