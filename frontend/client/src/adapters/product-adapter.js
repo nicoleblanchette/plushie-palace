@@ -1,9 +1,9 @@
-import { fetchHandler} from "../utils/utils";
+import { fetchHandler, getPostOptions} from "../utils/utils";
 
-const baseUrl = '/api/products'
+const baseUrl = 'http://localhost:3000/api'
 //get all products
 export const getAllProducts = async () => (
-  fetchHandler(baseUrl)
+  fetchHandler(`${baseUrl}/products`)
 )
 
 //get by category
@@ -18,8 +18,10 @@ export const getProductById = async (id) => (
 
 //get by search
 export const getProductsBySearch = async (search) => (
-  fetchHandler(`${baseUrl}/products/search/${search}`)
+  fetchHandler(`${baseUrl}/search/${search}`, )
 )
 
 //get by AI/ML algorithm
-export const getRecommendedProducts = async () => {}
+export const getRecommendedProducts = async (id) => (
+  fetchHandler(`${baseUrl}/products/recommended/${id}`)
+)

@@ -1,17 +1,17 @@
 import { Link } from "react-router-dom"
-import { useContext } from "react";
-import Context from "../context/Context";
-import { useNavigate } from "react-router-dom";
-import { logUserIn } from "../adapters/auth-adapter";
+import { useContext, useState } from "react"
+import Context from "../context/Context"
+import { useNavigate } from "react-router-dom"
+import { createUser } from "../adapters/user-adapter"
 
-export const SignUp = () => { 
-  const navigate = useNavigate()
-  const {currentUser, setCurrentUser} = useContext(Context)
-  const [formData, setFormData] = useState({
-    username: '',
-    password: ''
-  })
-  const [errorText, setErrorText] = useState('')
+export const SignUp = () => {
+	const navigate = useNavigate()
+	const { setCurrentUser } = useContext(Context)
+	const [formData, setFormData] = useState({
+		username: "",
+		password: "",
+	})
+	const [errorText, setErrorText] = useState("")
 
 	const handleChange = event => {
 		const { name, value } = event.target
@@ -19,20 +19,26 @@ export const SignUp = () => {
 			...prevData,
 			[name]: value,
 		}))
-  }
-  
-  const handleSubmit = (e) => {
+	}
+
+	const handleSubmit = async e => {
     e.preventDefault()
-    const [user, error] = logUserIn(formData)
-    if (error) return setErrorText(error.message)
-    setCurrentUser(user)
-    navigate(-1)
-  }
+    console.log('submit')
+    const [user, error] = await createUser(formData)
+    console.log('j')
+    console.log({user, error})
+		if (error) return setErrorText(error.message)
+		setCurrentUser(user)
+		navigate(-1)
+	}
 
 	return (
-		<>
-			<h1>Sign Up</h1>
-			<form onSubmit={handleSubmit}>
+		<div className='flex flex-col items-center gap-6'>
+			<h1 className='text-6xl font-bold my-6'>Sign Up</h1>
+			<form
+				className='flex flex-col items-center gap-3'
+				onSubmit={handleSubmit}
+			>
 				<label className='input input-bordered flex items-center gap-2'>
 					<svg
 						xmlns='http://www.w3.org/2000/svg'
@@ -44,7 +50,15 @@ export const SignUp = () => {
 						<path d='M15 6.954 8.978 9.86a2.25 2.25 0 0 1-1.956 0L1 6.954V11.5A1.5 1.5 0 0 0 2.5 13h11a1.5 1.5 0 0 0 1.5-1.5V6.954Z' />
 					</svg>
 
-          <input type='text' className='grow' placeholder='Username' name={username} value={formData.username} onChange={handleChange} required/>
+					<input
+						type='text'
+						className='grow'
+						placeholder='Username'
+						name='username'
+						value={formData.username}
+						onChange={handleChange}
+						required
+					/>
 				</label>
 				<label className='input input-bordered flex items-center gap-2'>
 					<svg
@@ -59,12 +73,25 @@ export const SignUp = () => {
 							clipRule='evenodd'
 						/>
 					</svg>
-					<input type='password' className='grow' placeholder='Password' name="password" value={formData.password} onChange={handleChange} required/>
+					<input
+						type='password'
+						className='grow'
+						placeholder='Password'
+						name='password'
+						value={formData.password}
+						onChange={handleChange}
+						required
+					/>
 				</label>
+				<button className='btn btn-primary'>Sign Up</button>
 			</form>
-      {errorText && <p>{ errorText}</p>}
-			<p>Already a member?</p>
-			<Link to={"/login"}>Log in!</Link>
-		</>
+      {errorText && <p>{errorText}</p>}
+      <div className="flex flex-col">
+      <p>Already a member?</p>
+      <button className="btn-link">
+        <Link to={"/login"}>Login!</Link>
+        </button>
+        </div>
+		</div>
 	)
 }

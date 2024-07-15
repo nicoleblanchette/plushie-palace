@@ -18,7 +18,7 @@ export const ProductCard = ({ product }) => {
         <p>${product.plushieDetails.price}</p>
     <div className="card-actions justify-end">
       {/* <div className="badge badge-outline">Fashion</div> */}
-          <div className="badge badge-outline">{ product.plushieDetails.category}</div>
+          <div className="badge badge-outline badge-accent">{ product.plushieDetails.category}</div>
     </div>
   </div>
 </div>
