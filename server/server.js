@@ -34,8 +34,11 @@ app.get("/api/products/:id", async (req, res) => {
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
 		const collection = db.collection(collectionName)
+		// const plushieById = await collection
+		// 	.find({ _id: new ObjectId(id) })
+		// 	.toArray()
 		const plushieById = await collection
-			.find({ _id: new ObjectId(id) })
+			.find({ "plushieDetails.id": parseInt(id) })
 			.toArray()
 		res.json(plushieById)
 	} catch (err) {
