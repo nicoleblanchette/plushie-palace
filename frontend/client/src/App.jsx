@@ -7,6 +7,7 @@ import { SignUp } from './pages/Signup';
 import { Checkout } from './pages/Checkout';
 import { Product } from './pages/Product';
 import { Cart } from './pages/Cart'
+import { Confirmed } from './pages/Confirmed';
 
 function App() {
 
@@ -22,6 +23,7 @@ function App() {
           <Route path='/cart' element={<Cart />} />
           <Route path='/checkout' element={<Checkout />} />
           <Route path='/products/:id' element={<Product />} />
+          <Route path='/confirmed' element={<Confirmed />} />
         </Routes>
       </main>
     </>

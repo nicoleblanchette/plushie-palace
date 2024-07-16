@@ -144,7 +144,7 @@ app.post("api/cart", async (req, res) => {
 })
 
 // /api/orders POST create an order
-app.post("api/orders", async (req, res) => {
+app.post("/api/orders", async (req, res) => {
 	try {
 		const order = req.body
 		const client = await MongoClient.connect(url)
