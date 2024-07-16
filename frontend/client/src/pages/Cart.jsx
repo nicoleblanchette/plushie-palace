@@ -5,23 +5,19 @@ import { CartItem } from "../components/CartItem";
 
 export const Cart = () => {
   const navigate = useNavigate()
-  const { cart } = useContext(Context)
-  const [total, setTotal] = useState(0)
+  const { cart, total } = useContext(Context)
+
   console.log(cart)
 
   return (
-    <>
-      <h1>Cart</h1>
-      <ul>
+    <div className="flex flex-col items-center gap-8">
+      <h1 className="text-6xl font-bold">Cart</h1>
+      <ul className="flex flex-col items-center gap-8">
         {cart?.map((item, idx) => <CartItem  key={idx} item={item}/>)}
-        {/* {cart?.map((item) => {
-       // setTotal((prev => prev + item?.price))
-          return <CartItem key={item?._id }
-            item={item} />;
-        } )} */}
       </ul>
-      <p>Total: ${total}</p>
-      <button className="btn" type="button" onClick={() => navigate('/checkout')}>Checkout</button>
-    </>
+      <p className="font-bold">Shipping: FREE</p>
+      <p className="font-bold">Total: ${total.toFixed(2)}</p>
+      <button className="btn btn-primary" type="button" onClick={() => navigate('/checkout')}>Checkout</button>
+    </div>
   )
 }

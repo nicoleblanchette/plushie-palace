@@ -5,7 +5,7 @@ import { useContext } from "react"
 
 export const Nav = () => {
   const navigate = useNavigate()
-  const { cart } = useContext(Context)
+  const { cart, total } = useContext(Context)
   // console.log(cart
   // )
 
@@ -43,7 +43,7 @@ export const Nav = () => {
 					>
 						<div className='card-body'>
               <span className='text-lg font-bold'>{cart?.length || 0 } Items</span>
-							<span className='text-info'>Subtotal: $999</span>
+              <span className='text-info'>${total.toFixed(2)}</span>
 							<div className='card-actions'>
 								<button onClick={() => navigate('/cart')} className='btn btn-primary btn-block'>View cart</button>
 							</div>
