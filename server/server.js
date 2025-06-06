@@ -2,6 +2,7 @@ import express from "express"
 import { MongoClient, ObjectId } from "mongodb"
 import dotenv from "dotenv"
 import cors from "cors"
+import { rateLimit } from "express-rate-limit"
 
 dotenv.config()
 const url = process.env.MONGO_DB_URL
@@ -10,7 +11,13 @@ const collectionName = process.env.MONGO_DB_COLLECTION
 const userCollection = process.env.MONGO_DB_USER_COLLECTION
 
 const app = express()
+const limiter = rateLimit({
+	windowMs: 15 * 60 * 1000, // 15 minutes
+	max: 100, // max 100 requests per windowMs
+})
+
 app.use(cors())
+app.use(limiter)
 app.use(express.json())
 const PORT = 3000
 
@@ -82,15 +89,15 @@ app.get("/api/search/:search", async (req, res) => {
 
 // /api/users/ POST make new account
 app.post("/api/users", async (req, res) => {
-  try {
-    const newUser = req.body
+	try {
+		const newUser = req.body
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
 		const collection = db.collection(userCollection)
 		// TO DO: verify username is unique/not previously taken
 
-	const result = await collection.insertOne(newUser)
-   res.status(201).send(`{"_id":"${result.insertedId}"}`)
+		const result = await collection.insertOne(newUser)
+		res.status(201).send(`{"_id":"${result.insertedId}"}`)
 	} catch (err) {
 		console.error("Error:", err)
 		res.status(500).send(err.message)
@@ -103,7 +110,7 @@ app.post("/api/users", async (req, res) => {
 //     const client = await MongoClient.connect(url)
 // 		const db = client.db(dbName)
 //     const collection = db.collection(userCollection)
-    
+
 //     const result = await collection.find({ "username": username })
 //     res.json(result)
 //   } catch (err) {
@@ -160,17 +167,17 @@ app.post("/api/orders", async (req, res) => {
 
 // /api/login POST login
 app.post("/api/login", async (req, res) => {
-  try {
-    console.log(req.body)
+	try {
+		console.log(req.body)
 		const { username, password } = req.body
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
 		const collection = db.collection("users")
-    const result = await collection.findOne({ "username": username })
-    if (result && result.password === password) {
-      res.json(result)
-    }
-	} catch(err) {
+		const result = await collection.findOne({ username: username })
+		if (result && result.password === password) {
+			res.json(result)
+		}
+	} catch (err) {
 		console.error("Error:", err)
 		res.status(500).send("Ooops, no username found")
 	}
