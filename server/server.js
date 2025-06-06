@@ -78,7 +78,7 @@ app.get("/api/search/:search", async (req, res) => {
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
     const collection = db.collection(collectionName)
-		const regex = new RegExp(RegExp.escape(safeSearch), "i") // Create a case-insensitive regular expression
+		const regex = new RegExp(RegExp.escape(search), "i") // Create a case-insensitive regular expression
 		const products = await collection
 			.find({ "plushieDetails.title": { $regex: regex } })
 			.toArray()
