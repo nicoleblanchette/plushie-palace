@@ -175,7 +175,7 @@ app.post("/api/login", async (req, res) => {
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
 		const collection = db.collection("users")
-		const result = await collection.findOne({ username: username })
+    const result = await collection.findOne({ username: { $eq: username } })
 		if (result && result.password === password) {
 			res.json(result)
 		}
