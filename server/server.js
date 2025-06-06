@@ -83,7 +83,7 @@ app.get("/api/search/:search", async (req, res) => {
 		res.json(products)
 	} catch (err) {
 		console.error("Error:", err)
-		res.status(500).send(err.message)
+		res.status(500).send("Unable to search")
 	}
 })
 
@@ -100,7 +100,7 @@ app.post("/api/users", async (req, res) => {
 		res.status(201).send(`{"_id":"${result.insertedId}"}`)
 	} catch (err) {
 		console.error("Error:", err)
-		res.status(500).send(err.message)
+		res.status(500).send("Unable to add user")
 	}
 })
 
