@@ -3,6 +3,7 @@ import { MongoClient, ObjectId } from "mongodb"
 import dotenv from "dotenv"
 import cors from "cors"
 import { rateLimit } from "express-rate-limit"
+import helmet from "helmet"
 
 dotenv.config()
 const url = process.env.MONGO_DB_URL
@@ -18,6 +19,7 @@ const limiter = rateLimit({
 
 app.use(cors())
 app.use(limiter)
+app.use(helmet)
 app.use(express.json())
 const PORT = 3000
 
@@ -100,7 +102,7 @@ app.post("/api/users", async (req, res) => {
 		res.status(201).send(`{"_id":"${result.insertedId}"}`)
 	} catch (err) {
 		console.error("Error:", err)
-		res.status(500).send("Unable to add user")
+		res.status(500).send("Unable to add")
 	}
 })
 
