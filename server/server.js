@@ -77,8 +77,8 @@ app.get("/api/search/:search", async (req, res) => {
 
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
-		const collection = db.collection(collectionName)
-		const regex = new RegExp(search, "i") // Create a case-insensitive regular expression
+    const collection = db.collection(collectionName)
+		const regex = new RegExp(RegExp.escape(safeSearch), "i") // Create a case-insensitive regular expression
 		const products = await collection
 			.find({ "plushieDetails.title": { $regex: regex } })
 			.toArray()
@@ -175,7 +175,7 @@ app.post("/api/login", async (req, res) => {
 		const client = await MongoClient.connect(url)
 		const db = client.db(dbName)
 		const collection = db.collection("users")
-    const result = await collection.findOne({ username: { $eq: username } })
+		const result = await collection.findOne({ username: { $eq: username } })
 		if (result && result.password === password) {
 			res.json(result)
 		}
